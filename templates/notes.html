@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% block head %}
+<title>Notes app</title>
+{% endblock %}
+
+{% block body %}
+<div class="container">
+    <nav class="navbar navbar-dark bg-dark">
+        <a class="navbar-brand" href="/notes/{{user.id}}">Notes app</a>
+        <form class="form-inline">
+          <!-- <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search"> -->
+          <a href="/notes/logout/{{user.id}}" class="btn btn-primary" type="submit">Logout</a >
+        </form>
+      </nav>
+    <h3>Welcome, {{ user.name }}</h3>
+    <!-- <p>We have successfully created content till now</p> -->
+    <table class="table">
+        <tr>
+            <td>Content</td>
+            <td>Created Date</td>
+            <td>Modified Date</td>
+            <td></td>
+        </tr>
+        {% for element in user.notes %}
+        <tr>
+            <td class='update' data-userid="{{user.id}}" id='{{element.id}}'>{{element.content}}</td>
+            <td>{{element.createdDate.time()}}</td>
+            <td>{{element.modifiedDate.time()}}</td>
+            <td>
+                <a href="/notes/delete/{{user.id}}/{{element.id}}" class='btn btn-primary'
+                    id='{{element.id}}'>Delete</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+    <form action="/notes/add/{{user.id}}" method="POST">
+        <div class="form-group">
+            <label for="content">Content
+                <input type="text" class="form-control" id="content" name='content'>
+            </label>
+        </div>
+        <button type="submit" class="btn btn-primary" id='add'>
+            Add Notes
+        </button>
+    </form>
+</div>
+{% endblock %}
